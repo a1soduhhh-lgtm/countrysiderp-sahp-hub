@@ -1,0 +1,10 @@
+COUNTRYSIDERP SAHP HUB - COMPLETE REPLACEMENT
+
+1. Extract this ZIP locally.
+2. In your GitHub repo, replace root files server.js, package.json, .gitignore, README.md, and replace the ENTIRE public/ directory with this ZIP's public/ directory. Do not put the folder 'sahp-fixed' inside your repo. Do not upload the ZIP itself to GitHub.
+3. IMPORTANT: Delete old root app.js, index.html, style.css if they exist; the only web UI files should be inside public/. Leave your existing Render environment variables alone.
+4. Render: Build command npm install (or yarn); Start command npm start. NODE_VERSION 22.16.0. Keep ADMIN_PASSWORD (12+ characters) and SESSION_SECRET (32+ random characters).
+5. After auto deploy says Live, open /health to confirm {ok:true}. Then hard-refresh your site (Ctrl+Shift+R). Try Command Login.
+6. NOTE: The full roster is private; public visitors see command only. Render free instances have EPHEMERAL storage: changes to SQLite and uploaded photos will be lost on some restarts/deploys. Use persistent storage for lasting edits.
+
+If it still fails, send the latest Render logs and browser console error. We cannot diagnose unknown live errors from a screenshot alone.

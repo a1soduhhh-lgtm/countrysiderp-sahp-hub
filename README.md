@@ -1,27 +1,25 @@
-# CountrysideRP Nevada DPS SAHP Hub
+# CountrysideRP Nevada DPS SAHP Hub — upgraded
 
-A public department information website with a password-protected administration panel. Not a CAD system.
+Node.js/Express website with a public department portal and a password-protected command dashboard.
 
-## Local start
+## Features
+- Navy-and-gold homepage, editable headings, banner, hero image, mission, about, footer and accent color.
+- Admin uploads PNG/JPEG/WebP/GIF photos up to 3 MB. Images are stored in SQLite, not on temporary upload paths.
+- Public Chain of Command shows only Commissioner, Deputy Commissioner, Assistant Commissioner, Chief, Assistant Chief, Captains and Lieutenants, with callsign and assigned name (or Vacant).
+- Complete roster is accessible only to signed-in administrators. Prepopulated callsign slots match the supplied rank structure. Duplicate 5460 was included only once; 5450 and 5461 were not supplied and are not invented.
+- Admin can edit roster assignments, announcements, promotions, ranks, vehicles, uniforms, training, policies, resources, and other published sections.
+- Existing password/session/CSRF protections remain in place.
 
-1. Install Node.js 20+.
-2. In this directory run `npm install`.
-3. Set environment variables `ADMIN_PASSWORD` (12+ characters) and `SESSION_SECRET` (a long random value). Optionally set `ADMIN_USERNAME` (defaults to `admin`). Copy `.env.example` for reference; the app does **not** load `.env` automatically.
-4. Run `npm start` and open `http://localhost:3000`.
-5. Click **Command Login** to edit pages, promotions, uniforms, vehicles, ranks, roster entries, and more.
+## Deploy on your existing Render service
+1. Download this ZIP and **extract it** on your computer.
+2. Open your existing GitHub repository and upload the **contents** of this folder to the repository root, replacing existing `server.js`, `package.json`, and `public/` files. Do not upload the ZIP as a single file.
+3. Keep existing Render environment variables: `NODE_VERSION=22.16.0`, `ADMIN_PASSWORD`, and `SESSION_SECRET`. Do not put secrets in GitHub.
+4. Render should redeploy from the main branch. Visit your existing onrender.com URL and hard-refresh.
+5. Use Command Login → Administration → Website Editor, Pages & Posts, Private Roster, or Security.
 
-On Windows PowerShell:
-```powershell
-$env:ADMIN_PASSWORD="your-long-private-password"
-$env:SESSION_SECRET="a-different-long-random-secret"
-npm install
-npm start
-```
+## CRITICAL: permanent storage
+The app defaults to SQLite at `hub.db` inside the application directory. Render's **free** filesystem is ephemeral: uploaded images, roster changes, and edits can be lost on restart or redeploy. **Do not treat the current free Render setup as permanent storage.** To make changes persistent, provision a persistent disk on a compatible paid Render service and set `DB_PATH` to a file path on that disk (for example `/var/data/hub.db`). The service must be restarted after changing `DB_PATH`. Alternatively, migrate this application to an external managed database before using it for real records. Back up the database regularly. Never commit `hub.db` or secrets to GitHub.
 
-## Deployment
+If the previous version already contains data in `hub.db`, migrate or back it up before changing storage; this release adds tables without intentionally deleting existing records. Existing old roster entries are excluded from the public API, and new roster slots are managed separately.
 
-Deploy as a persistent Node.js service (Node 20+), set the environment variables above, and use HTTPS. The default SQLite file `hub.db` is stored in the app folder; for hosting platforms with ephemeral filesystems, mount persistent storage and set `DB_PATH=/path/on/persistent/disk/hub.db`. **Without persistent storage, your edits may disappear on restart or redeploy.** Do not upload `hub.db` to a public repository. Configure regular backups. `SESSION_SECRET` must stay consistent across restarts; changing it logs everyone out.
-
-Security notes: passwords are bcrypt-hashed; admin edits require a login and a CSRF token; login attempts are rate-limited. For larger deployments, replace the default in-memory session store with a persistent session store, use a production reverse proxy with HTTPS, and consider additional account security (2FA, individual staff accounts). The app starts with one admin account; it does not yet offer multiple roles or image file uploads. Image entries accept HTTPS URLs. All roster data is public, so do not publish private member information.
-
-All content is sample data until your command staff edits it. This is a fictional FiveM roleplay community portal, not an official Nevada DPS site.
+All displayed department information is for a fictional FiveM roleplay community.
