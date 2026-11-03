@@ -1,0 +1,14 @@
+COUNTRYSIDERP SAHP — MODERN INTERNAL HUB
+
+1. Back up your working GitHub repository before replacing anything.
+2. Upload server.js and package.json into the repository root.
+3. Upload index.html, app.js, style.css and the assets folder INSIDE public/.
+4. Do not upload a second nested public folder.
+5. Commit changes and wait for Render Auto Deploy.
+6. Open the site, then use Command Login > Administration > Calendar Editor to add events.
+
+Your existing ADMIN_PASSWORD and SESSION_SECRET remain configured in Render.
+
+IMPORTANT: Render free disk storage is temporary. Existing SQLite edits and new calendar events can disappear after redeploys/restarts unless DB_PATH points to persistent storage. Back up your database before changes.
+
+This version also fixes missing authentication/CSRF protection on the roster update and image upload routes.
